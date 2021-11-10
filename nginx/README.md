@@ -43,3 +43,31 @@ This file presents my questions when I reading a book called `Understanding Ngin
 - `Q262-1`: `TCP_DEFER_ACCEPT` option will notify event framework after truely receiving data, so what if this option is not used?
 - `Q264-1`: How to now how many files a process opened and know who are they?
 - `Q264-2`: All modules can operate ngx_cycle_t, so how to make sure one modules operation cannot affect another?
+- `Q269-1`: Nginx use signal to notify worker, so how to make sure signal won't disturb worker process usual work and signal safe?
+- `Q272-1`: Why nginx process can own no more than 1024 worker processes? Can it owns more?
+- `Q273-1`: Why nginx master will received signal `CHLD` when a work process exit unexpected?
+- `Q278-1`: In nginx memory pool, assume a case that small piece of memory are quickly used and then expired. If we allocate 1kb per second and 1 day needs to 
+86MB memory. So in this case why the expire memory cannot be reused?  
+- `Q285-1`: What is file asynchronize supported by linux and glibc(implemented by multiple thread)?
+- `Q310-1`: In the past, why system call `epoll_create` receives a arguments refers to approximately event number? Why now it needs this arguments any more.
+- `Q312-1`: Why nginx use ET epoll?
+- `Q325-1`: What is Shocking group? Why it is more child process, the case is more serious?
+- `Q329-1`: After finish solving queue `ngx_posted_accept_events` mutex `ngx_accept_mutex` is freed immediatel. So what if no process listens the listening port?
+- `Q334-1`: What does Linux version 2.6.x does, it seems that in this edition support many new features.
+- `Q337-1`: What happened when read file asynchronized when there is already a same file in memory?
+- `Q343-1`: Why MSS is ensured when establish a tcp connection?
+- `Q366-1`: Why copy the origin value and then modify it when merge the config, this copy is just a shallow copy, what happened if the structure contains a pointer?
+- `Q369-1`: Why a physical machine is able to own many IP?
+- `Q374-1`: As `ngx_http_phase_handle_t` contains checker and handler and checker call handler, so why checker needs to contain a argument typed with  `ngx_http_phase_handle_t`? I think it can use it's struct address directly, as this pointer in c++.  
+- `Q383-1`: It's normal to read config, but when the callback function triggered as nginx reads the full part of a module from the config file?
+- `Q389-1`: Which module set ready flag in ngx_event_t? How to know when it's ready and has not read?
+- `Q389-2`: Why not solve http request head and line together?
+- `Q391-1`: How to use state machine to analysis http request?
+- `Q395-1`: Why not receive from socket if there are unanlysised char stream?
+- `Q402-1`: Why it's basic for executing multiple redirection?   
+Set phase_handler to server_rewrite _index which make sure that it must restart from NGX_HTTP_SERVER_PHASE stage.  
+- `Q405-1`: As a request not finishes, it will be handled the next time. So Where this request is pushed and when it will be handled again?
+- `Q405-2`: Like Q405-1, the request will be handled when an event happen. What is this event?
+- `Q409-1`: What event module can handle for some events? Is there anything besides R/W-able sockets and timer?
+- `Q417-1`: What's the largest length of a request body?
+- `Q419-1`: Does kernel discard the request body directly?
