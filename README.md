@@ -3,9 +3,13 @@ This project is a guide of building web server framework with some source code a
 
 This repository contains two main web server to analysis, one is `Nginx` and another is `Gin`. The reason for chosen those two is that I used Gin for web developing more than 1 year to build a web service and I have read a book about Nginx recently. 
 
+
 ## Source code version 
 I chose [v1.7.0](https://github.com/gin-gonic/gin/tree/v1.7.0) for gin.  
 
+## Remark
+Ich habe etwas zwei Jahre Deutsche lernen fur meine Hobby. Weil Ich lerne Deutsche, hoffe ich auf Deustsch zu bloggen. Die Blogs moglich viele Felher aber Ich hoffe dass ich gut vor dem Abschluss schreiben kann:)  
+Einige Inhalte werde ich noch einmail auf Deutsch schreiben.
 # Content
 
 [Nginx part](./nginx).  
