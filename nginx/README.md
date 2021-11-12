@@ -1,73 +1,18 @@
-# Summary 
-This file presents my questions when I reading a book called `Understanding Nginx,Modules Development and Architecture Resolving(Second Edition)`. I render question prefix with format `Q(page)-rank`, for instance I will mark the first question in page 1 as `Q1-1` to quickly find it in the origin book.  
+# Learning about web server from nginx
 
-# Questions Collection
-- `Q25-1`: Nginx program finds its master process id by nginx.pid file, so what is `nginx.pid` and who generates it?  
-- `Q28-1`: Why count of worker is equal to CPU core count?
-- `Q36-1`: What is CIDR address?
-- `Q36-2`: What is `Core dump` file, what contents in it?  
-- `Q37-1`: What is signal queue in Linux and when it was supported?
-- `Q38-1`: How nginx updates time it caches in user env?
-- `Q39-1`: What is vsyscall?
-- `Q39-2`: How nginx make a load balancer?
-- `Q41-1`: What is virtual hosting?
-- `Q47-1`: What is recursive use error page?
-- `Q47-2`: Why there is a option that stores http body in disk or not?
-- `Q50-1`: There is a variable named client_header_timeout, it refers that if in timeout span server doesn't receive packet from client, server will timeout. So who manages time and set timer?  
-- `Q51-1`: Why IE6 and Safari owns some functional trouble on post request when use keep-alive?
-- `Q51-2`: What is a tcp long-connection? tcp is a stream based protocol so how to know how many request based it?
-- `Q52-1`: What is MINE type?
-- `Q53-1`: What difference between Head and Get method in http?
-- `Q54-1`: Why linux system call decrease twice copy between user space and kernel space?
-- `Q64-1`: Why some http header will be filtered by nginx and not be sent?
-- `Q72-1`: How to understand container like linked list container?
-- `Q96-1`: What is header not defined by RFC?
-- `Q106-1`: What is inode structure in linux?
-- `Q107-1`: What is RFC range protocol? Why multiple download is quicker?
-- `Q165-1`: How to detect tcp connection break unexpected?
-- `Q162-2`: Why `reinit_request` is called after an unexpected tcp connection break, not call `create_request` again?
-- `Q177-1`: Why concurrency in nginx upstream constricts by memory, not CPU?
-- `Q208-1`: Which algorithm is suitable for large scale data collection to sort?
-- `Q212-1`: When offset is calculatd in `nginx_queue_t` structure?
-- `Q234-1`: What are popular hash algorithm? what is `BKDR`?
-- `Q238-1`: Why element counts of hash in nginx is limited by `max_size`, what happens if the real number exceed the max?
-- `Q239-1`: Why `ngx_hash_key_t` stores the origin key? Are they have been used in hash table?
-- `Q239-2`: Who manages to construct Hash table?
-- `Q241-1`: Where the data helps init hash table comes from?
-- `Q255-1`: Why event driven model works well when a connection established? How traditional web server do to solve connection,do they use event driven?
-- `Q257-1`: Are 11 stage in dealing http request a state-machine?
-- `Q258-1`: How to split a blocked operation to a controllable time to finish(block a process is unacceptable)?
-- `Q258-2`: Can nginx timer block process?
-- `Q260-1`: How to understand gather many system call together to one call can decrease wasting CPU? 
-- `Q261-1`: Why address in ngx_listening_s will store a addr_text_max_len to present memory add_text(ngx_str_t) allocated?
-- `Q262-1`: `TCP_DEFER_ACCEPT` option will notify event framework after truely receiving data, so what if this option is not used?
-- `Q264-1`: How to now how many files a process opened and know who are they?
-- `Q264-2`: All modules can operate ngx_cycle_t, so how to make sure one modules operation cannot affect another?
-- `Q269-1`: Nginx use signal to notify worker, so how to make sure signal won't disturb worker process usual work and signal safe?
-- `Q272-1`: Why nginx process can own no more than 1024 worker processes? Can it owns more?
-- `Q273-1`: Why nginx master will received signal `CHLD` when a work process exit unexpected?
-- `Q278-1`: In nginx memory pool, assume a case that small piece of memory are quickly used and then expired. If we allocate 1kb per second and 1 day needs to 
-86MB memory. So in this case why the expire memory cannot be reused?  
-- `Q285-1`: What is file asynchronize supported by linux and glibc(implemented by multiple thread)?
-- `Q310-1`: In the past, why system call `epoll_create` receives a arguments refers to approximately event number? Why now it needs this arguments any more.
-- `Q312-1`: Why nginx use ET epoll?
-- `Q325-1`: What is Shocking group? Why it is more child process, the case is more serious?
-- `Q329-1`: After finish solving queue `ngx_posted_accept_events` mutex `ngx_accept_mutex` is freed immediatel. So what if no process listens the listening port?
-- `Q334-1`: What does Linux version 2.6.x does, it seems that in this edition support many new features.
-- `Q337-1`: What happened when read file asynchronized when there is already a same file in memory?
-- `Q343-1`: Why MSS is ensured when establish a tcp connection?
-- `Q366-1`: Why copy the origin value and then modify it when merge the config, this copy is just a shallow copy, what happened if the structure contains a pointer?
-- `Q369-1`: Why a physical machine is able to own many IP?
-- `Q374-1`: As `ngx_http_phase_handle_t` contains checker and handler and checker call handler, so why checker needs to contain a argument typed with  `ngx_http_phase_handle_t`? I think it can use it's struct address directly, as this pointer in c++.  
-- `Q383-1`: It's normal to read config, but when the callback function triggered as nginx reads the full part of a module from the config file?
-- `Q389-1`: Which module set ready flag in ngx_event_t? How to know when it's ready and has not read?
-- `Q389-2`: Why not solve http request head and line together?
-- `Q391-1`: How to use state machine to analysis http request?
-- `Q395-1`: Why not receive from socket if there are unanlysised char stream?
-- `Q402-1`: Why it's basic for executing multiple redirection?   
-Set phase_handler to server_rewrite _index which make sure that it must restart from NGX_HTTP_SERVER_PHASE stage.  
-- `Q405-1`: As a request not finishes, it will be handled the next time. So Where this request is pushed and when it will be handled again?
-- `Q405-2`: Like Q405-1, the request will be handled when an event happen. What is this event?
-- `Q409-1`: What event module can handle for some events? Is there anything besides R/W-able sockets and timer?
-- `Q417-1`: What's the largest length of a request body?
-- `Q419-1`: Does kernel discard the request body directly?
+## Questions
+[Questions when I read nginx guide book](./question.md).
+
+## Code analysis
+### 1. State Machine for Http analyzing
+- What is State Machine?  
+First we google it and found a [page](https://www.itemis.com/en/yakindu/state-machine/documentation/user-guide/overview_what_are_state_machines) about it. 
+Keywords:  
+    - Finite number of state, also called FSM.
+    - Based on the current state and a given input the machine performs state transitions and produces outputs.
+There are two basic main FSM from automatic theory, Moore and Mealy.  
+    - Moore
+    States are able to produce outputs, and the output is determined solely by the current state, not by any input.  
+    - Mealy
+    Mealy machines produce outputs only on transitions and not in states.  
+    
