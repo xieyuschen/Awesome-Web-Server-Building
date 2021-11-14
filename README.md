@@ -11,6 +11,10 @@ I chose [v1.7.0](https://github.com/gin-gonic/gin/tree/v1.7.0) for gin.
 Ich habe etwas zwei Jahre Deutsche lernen fur meine Hobby. Weil Ich lerne Deutsche, hoffe ich auf Deustsch zu bloggen. Die Blogs moglich viele Felher aber Ich hoffe dass ich gut vor dem Abschluss schreiben kann:)  
 Einige Inhalte werde ich noch einmail auf Deutsch schreiben.
 # Content
+## 1. State machine for dealing http request
+When it comes to state machine, I fall into a nightmare for my Compiler course because it consists quite a lot of state machine. Back to my topic here, state machine is quite useful when we deals about a stream based transit protocol like tcp. Http based on every single request which like a packet but tcp is a stream which means there is no clear separation between two closed request.  
+State machine which can convert its state as it receives a stream of characters.
 
-[Nginx part](./nginx).  
-[Gin part](./gin).  
+## 2. How nginx reads http request from tcp socket?  
+
+ 

@@ -15,4 +15,5 @@ There are two basic main FSM from automatic theory, Moore and Mealy.
     States are able to produce outputs, and the output is determined solely by the current state, not by any input.  
     - Mealy
     Mealy machines produce outputs only on transitions and not in states.  
-    
+
+### 1. Http request handle
