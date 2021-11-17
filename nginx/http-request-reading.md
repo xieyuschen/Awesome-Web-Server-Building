@@ -22,7 +22,7 @@ Event module manages a chunk of events element, basic managed element is an inst
 &emsp;&emsp;Then we shall pay attention to how `ngx_event_s` is initialized and managed, in short who managed it at whole framework. In linux it's normal to use `epoll` system call so let we see how epoll is used in nginx. 
 - ngx_epoll_module.c  
 This file is stored at `/src/event/modules/ngx_epoll_module.c`, it contains some necessary structs as a module like array of ngx_command_t and ngx_event_module_t context.  
-Epoll module will be added into module array @todo
+Epoll module will be added into module array 
 
 
 
