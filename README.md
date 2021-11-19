@@ -17,6 +17,8 @@ Einige Inhalte werde ich noch einmail auf Deutsch schreiben.
 |--|:--|--|
 |0|Questions when I read nginx guide book|[here](./nginx/question.md)|
 |1|How nginx start up and read config file|[here](./nginx/init-and-read-conf.md)|
+|2|How configuration file stored in ngx_cycle_t|[here](./nginx/how-config-stored)|
+
 
 ## Gin Part
 @todo: to be finished

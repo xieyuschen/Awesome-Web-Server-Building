@@ -40,7 +40,7 @@ for (i = 0; cycle->modules[i]; i++) {
 ```
 As code shows above, two points about variables initialization in cycle struct should be clear.  
 - One is at this time array of cycle->modules is already assigned  
-Knowing time when array of cycle->modules is initialized makes us understood it better, read carefully about codes, it quite do initialize cycle->modules in `ngx_init_cycle` at line 252 in `/src/core/ngx_cycle.c` by calling `ngx_cycle_modules`. Just as always it done before, this function allocates memory, check valid and then copy arrays from origin. Additional modules ordered array and their names are stored in `objs/ngx_modules.c` which is generated at `./configure` point as plain text before compiling, so when nginx startup and init, those arrays can be used directly.  
+Knowing time when array of cycle->modules is initialized makes us understood it better, read carefully about codes, it quite do initialize cycle->modules in `ngx_init_cycle` at line 225 in `/src/core/ngx_cycle.c` by calling `ngx_cycle_modules`. Just as always it done before, this function allocates memory, check valid and then copy arrays from origin. Additional modules ordered array and their names are stored in `objs/ngx_modules.c` which is generated at `./configure` point as plain text before compiling, so when nginx startup and init, those arrays can be used directly.  
 - The other is only **NGX_CORE_MODULE** will be executed to allocate memory  
 
 It's good to know which module belongs to `NGX_CORE_MODULE` so look back of module definition which implements by official authors or triple authors. Each modules needs to own those three structs as following:  
