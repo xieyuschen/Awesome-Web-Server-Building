@@ -85,3 +85,63 @@ ngx_init_modules(ngx_cycle_t *cycle)
 ```
 
 In part above we found that `NGX_CORE_MODULE` has been already initialized, so in this part it's mainly focus on the other part. But in this procedure the code doesn't skip the `NGX_CORE_MODULE` because all core modules' init_module are NULL.  
+## How Each Module Config File looks like?
+As further step we find an instance of init_module to see how it initializes the config struct and how config struct looks like. Each module owns its specified config obviously.  
+- Firstly we focus on NGX_CORE_MODULE modules' config where `void ****conf_ctx` will store a pointer to it. Let's look at module interface and we found such module stores in conf_ctx directly.  
+- How about Non NGX_CORE_MODULE?  
+The method to init config is all in module interface struct, so how they are put into ngx_cycle_t and assigned? Look declaration about module interface may help us:
+```c
+// NGX_HTTP_MODULE
+// /src/http/modules/ngx_http_memcached_module.c file, ngx_http_memcached_module
+static ngx_http_module_t  ngx_http_memcached_module_ctx = {
+    NULL,                                  /* preconfiguration */
+    NULL,                                  /* postconfiguration */
+
+    NULL,                                  /* create main configuration */
+    NULL,                                  /* init main configuration */
+
+    NULL,                                  /* create server configuration */
+    NULL,                                  /* merge server configuration */
+
+    ngx_http_memcached_create_loc_conf,    /* create location configuration */
+    ngx_http_memcached_merge_loc_conf      /* merge location configuration */
+};
+
+// NGX_EVENT_MODULE
+// src/event/modules/ngx_epoll_module.c, ngx_epoll_module_t
+static ngx_event_module_t  ngx_epoll_module_ctx = {
+    &epoll_name,
+    ngx_epoll_create_conf,               /* create configuration */
+    ngx_epoll_init_conf,                 /* init configuration */
+
+    {
+        ngx_epoll_add_event,             /* add an event */
+        ngx_epoll_del_event,             /* delete an event */
+        ngx_epoll_add_event,             /* enable an event */
+        ngx_epoll_del_event,             /* disable an event */
+        ngx_epoll_add_connection,        /* add an connection */
+        ngx_epoll_del_connection,        /* delete an connection */
+#if (NGX_HAVE_EVENTFD)
+        ngx_epoll_notify,                /* trigger a notify */
+#else
+        NULL,                            /* trigger a notify */
+#endif
+        ngx_epoll_process_events,        /* process the events */
+        ngx_epoll_init,                  /* init the events */
+        ngx_epoll_done,                  /* done the events */
+    }
+};
+
+
+// HTTP_CORE_MODULE
+// src/event/ngx_event.c, ngx_core_module_t
+static ngx_core_module_t  ngx_events_module_ctx = {
+    ngx_string("events"),
+    NULL,
+    ngx_event_init_conf
+};
+```
+Wow, what an amazing intelligence! Here different type of module has a different interface type as a result nginx used `void*` to store it for C language hasn't polymorphism. On the contrary C++ using `RTTI`(Runtime Type Information), C use type to refer it. This is polymorphism in C.  
+@todo: How nginx convert from void* to a type specified module interface?  
+@todo: How different module interface are used and the main,srv,loc conf method are called?  
+ 
