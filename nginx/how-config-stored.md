@@ -8,7 +8,7 @@ struct ngx_cycle_s {
 ```
 In computer science there is no mistory for human design all of them. In [last post](./init-and-read-conf.md) I mentioned nginx create configure memory and then init all modules by calling their init callback. In this page I will read source code and note more details about it.  
 
-## Create Configure memory and init for NGX_CORE_MODULE
+## 1.Create Configure memory and init for NGX_CORE_MODULE
 Correspond to last post **Step3 and Step5**, this step will allocate memory to store config. Of course all of memory allocate will be managed by `conf_ctx` which is a `void****` type variable. We have already know `create_conf` allocates memory for all `NGX_CORE_MODULE`, so it's time to see how they work.  
 As mentioned past, Create config achieved as those code:  
 ```c
@@ -61,10 +61,10 @@ First look at how ngx_core_module implement its create_conf function, it has alr
 ```
 **From now the magic variable conf_ctx with type `void****` start to store config details**. 
 
-### index and ctx_index in ngx_module_t
+### 1.1 index and ctx_index in ngx_module_t
 Index is the index in whole modules array, but `ctx_index` is used to present index in its certain module.  
 
-## Modules except NGX_CORE_MODULE create and initialization
+## 2.Modules except NGX_CORE_MODULE create and initialization
 In past post **Step7** we see the code initialized by those code, in this part we will find how `init_module` build and principle behind it.
 ```c
 ngx_int_t
@@ -85,7 +85,8 @@ ngx_init_modules(ngx_cycle_t *cycle)
 ```
 
 In part above we found that `NGX_CORE_MODULE` has been already initialized, so in this part it's mainly focus on the other part. But in this procedure the code doesn't skip the `NGX_CORE_MODULE` because all core modules' init_module are NULL.  
-## How Each Module Config File looks like?
+
+## 3.How Each Module Config File looks like?
 As further step we find an instance of init_module to see how it initializes the config struct and how config struct looks like. Each module owns its specified config obviously.  
 - Firstly we focus on NGX_CORE_MODULE modules' config where `void ****conf_ctx` will store a pointer to it. Let's look at module interface and we found such module stores in conf_ctx directly.  
 - How about Non NGX_CORE_MODULE?  
@@ -142,6 +143,33 @@ static ngx_core_module_t  ngx_events_module_ctx = {
 };
 ```
 Wow, what an amazing intelligence! Here different type of module has a different interface type as a result nginx used `void*` to store it for C language hasn't polymorphism. On the contrary C++ using `RTTI`(Runtime Type Information), C use type to refer it. This is polymorphism in C.  
-@todo: How nginx convert from void* to a type specified module interface?  
+
+
+### 3.1 How nginx convert from void* to a type specified module interface?  
+Acctually nginx doesn't have such convertion for it use an unified way to archieve it.  
+Code showed above may bring some confused to you, so does it to myself. Each module has unified module exposed for outside, which is type `ngx_module_t`, it's define all things about one module, no matter it's core module or not. So the time the module initialized insider is obvios which in `ngx_init_modules` call in function mentioned at topic 2.2.  
+Let's make an instance to end this top, look about the formal `ngx_module_t` in memcached:  
+```c
+ngx_module_t  ngx_http_memcached_module = {
+    NGX_MODULE_V1,
+    &ngx_http_memcached_module_ctx,        /* module context */
+    ngx_http_memcached_commands,           /* module directives */
+    NGX_HTTP_MODULE,                       /* module type */
+    NULL,                                  /* init master */
+    NULL,                                  /* init module */
+    NULL,                                  /* init process */
+    NULL,                                  /* init thread */
+    NULL,                                  /* exit thread */
+    NULL,                                  /* exit process */
+    NULL,                                  /* exit master */
+    NGX_MODULE_V1_PADDING
+};
+```
+### 3.2 How init_module defined in different modules?  
+@todo: Add some examples here for no obj folder generated when compile.
+
+### 3.3
+@todo: conclude from book, the functions in module interface as type `ngx_module_t` are callback functions which will only be called when the specified event happened.  
+### 3.4
 @todo: How different module interface are used and the main,srv,loc conf method are called?  
- 
+
