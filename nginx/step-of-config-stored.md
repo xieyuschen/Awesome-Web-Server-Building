@@ -1,4 +1,4 @@
-# How configuration file stored in ngx_cycle_t
+# Steps of configuration file to stored in ngx_cycle_t
 When it comes to a newer talking about impressions on nginx, there must be a emphasis about it's void pointer. Especially `void****`, coincidentally this type does store the whole configuration file for nginx. Let's make a closer look to it. It's amazing how excellent of nginx author. 
 ```c
 struct ngx_cycle_s {
@@ -6,7 +6,7 @@ struct ngx_cycle_s {
     //etc ...
 }
 ```
-In computer science there is no mistory for human design all of them. In [last post](./init-and-read-conf.md) I mentioned nginx create configure memory and then init all modules by calling their init callback. In this page I will read source code and note more details about it.  
+In computer science there is no mistory for human designing all of them. In [last post](./init-and-read-conf.md) I mentioned nginx create configure memory and then init all modules by calling their init callback. In this page I will read source code and note more details about it.  
 
 ## 1.Create Configure memory and init for NGX_CORE_MODULE
 Correspond to last post **Step3 and Step5**, this step will allocate memory to store config. Of course all of memory allocate will be managed by `conf_ctx` which is a `void****` type variable. We have already know `create_conf` allocates memory for all `NGX_CORE_MODULE`, so it's time to see how they work.  
@@ -167,9 +167,12 @@ ngx_module_t  ngx_http_memcached_module = {
 ```
 ### 3.2 How init_module defined in different modules?  
 @todo: Add some examples here for no obj folder generated when compile.
-
+After reading some moudles we found that all modules about `init_module` I looked up are NULL. As the book concludes, the functions such as `init_module` in module interface as type `ngx_module_t` are callback functions which will only be called when the specified event happened.  
 ### 3.3
-@todo: conclude from book, the functions in module interface as type `ngx_module_t` are callback functions which will only be called when the specified event happened.  
-### 3.4
 @todo: How different module interface are used and the main,srv,loc conf method are called?  
 
+
+## 4.CONCLUSION
+Let's make conclusion to end this topic. What's the order the config stored in config file?  
+In main loop it calls all modules's exposed interface as type `ngx_module_t` and call some functions in it. That's all things done by main function. When it comes to function like `create_main_conf`, `create_src_conf` and so on, they are callback functions which means called positively when analysis part encounters corresponding settings interested by module's command.  
+The next article will pay attention to point when those callback functions are executed.  
