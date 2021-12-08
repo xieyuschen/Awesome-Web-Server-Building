@@ -1,7 +1,8 @@
-# How nginx analyzes the nginx.conf file
+# How nginx loads the nginx.conf file
 Everybody who has once used nginx will know how important of nginx.conf file is. This article will foucs on following questions:  
 - how nginx endless loop is managed?
 - when this file is loaded
+By the way, I will introduce a question for the next article:  
 - how nginx analyzes nginx.conf and executes callback functions  
 
 
