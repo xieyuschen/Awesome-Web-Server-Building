@@ -89,8 +89,8 @@ NGINX checks configuration for correct syntax and then try to open files referre
 
 All options in option table are listed with handling way in function `ngx_get_options`. This function just analyzes options to set flags(like config file path, testing argument and so on) from command line and then do something based on flags value.  We can easily find this design such as `ngx_show_version` to show ngx version to user.  
 
-### 2.2 How nginx config path is made sure?
-Some solution about flags is in main scope, the other are stored in scope of `ngx_process_options` function in `\src\core\nginx.c:938`. Firstly it makes sure the config file path as following code. Additional, variable `NGX_CONF_PATH` comes from `./configure`.
+### 2.2 What does function ngx_process_options do?
+Some solutions about flags lives in main scope, the other are stored in scope of `ngx_process_options` function in `\src\core\nginx.c:938`. Firstly it makes sure the config file path as following code. Additional, variable `NGX_CONF_PATH` comes from `./configure`.
 ```c
     if (ngx_conf_file) {
         cycle->conf_file.len = ngx_strlen(ngx_conf_file);
@@ -100,4 +100,46 @@ Some solution about flags is in main scope, the other are stored in scope of `ng
         ngx_str_set(&cycle->conf_file, NGX_CONF_PATH);
     }
 ```
+Other flags are dealed in `ngx_process_options` scope and stored into cycle data member.  
+
+### 2.3 Step into ngx_init_cycle function again
+I finally found that the file loaded may still in `ngx_init_cycle`, so I looked it carefully again. Reading its call stack and I finally found it, the call stack is: `main->ngx_init_cycle->ngx_conf_parse`. In function `ngx_conf_parse` it opens file if the second arguments is not null or @todo: what function does if filename is NULL.  
+
+Attention that ngx_conf_parse is called twice in `ngx_init_cyclye`, the one is in function `ngx_conf_param`, the other is in `ngx_init_cycle` directly. In this function it does two key things, one is that it open file or set flag, the other is that it analyzes configure file and check whether it's valid or not. Here it use **STATE MACHINE** obviously and I will take an eye later @todo.  
+All shall we know is that in this stage it analyzes the config file using a state machine, and then executes call back function set by `ngx_command_t` which are interested by a module. Let's see some declaration and implement of callback:  
+```c
+
+    //start at \src\core\ngx_conf_file.c:292
+    if (cf->handler) {
+        //ignore some code
+        rv = (*cf->handler)(cf, NULL, cf->handler_conf);
+        if (rv == NGX_CONF_OK) {
+            continue;
+        }
+        //ignore some code
+    }
+```
+As code showes above, what's `cf->handler`, let's check it declaration:
+```c
+typedef char *(*ngx_conf_handler_pt)(ngx_conf_t *cf,
+    ngx_command_t *dummy, void *conf);
+``` 
+We found that this function pointer receives an argument as type `ngx_command_t`, we realize that this handler is possiable to define in `ngx_command_t`. Check `ngx_command_t` and so do I think.
+```c
+struct ngx_command_s {
+    ngx_str_t             name;
+    ngx_uint_t            type;
+    char               *(*set)(ngx_conf_t *cf, ngx_command_t *cmd, void *conf);
+    ngx_uint_t            conf;
+    ngx_uint_t            offset;
+    void                 *post;
+};
+```
+All things are clear now. To end part1, I answer the question again.  
+> Q: When nginx.conf file is loaded by nginx?
+> A: It's loaded at `main->ngx_init_cycle->ngx_conf_parse`.  
+
+## 3.How nginx analyzes nginx.conf and executes callback functions?  
+Topic `2.3` has already told us the question as title. If you want to know the details of it, please see the next article to learn more about it.  
+  
 
