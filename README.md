@@ -1,5 +1,5 @@
 # Awesome-Web-Server-Building
-This project is a guide of building web server framework with some source code analysis of Nginx and Gin. It's useful to learn  how they designed to build a high performance wen server.   
+This project is a guide of building web server framework with some source code analysis of Nginx and Gin. It's useful to learn  how they designed to build a high performance web server.   
 
 This repository contains two main web server to analysis, one is `Nginx` and another is `Gin`. The reason for chosen those two is that I used Gin for web developing more than 1 year to build a web service and I have read a book about Nginx recently. 
 
@@ -15,11 +15,11 @@ Einige Inhalte werde ich noch einmail auf Deutsch schreiben.
 ## Nginx Part
 |Rank|Title|Link|
 |--|:--|--|
-|0|Questions when I read nginx guide book|[here](./nginx/question.md)|
-|1|How nginx start up and read config file|[here](./nginx/init-and-read-conf.md)|
-|2|Steps of configuration file to stored in ngx_cycle_t|[here](./nginx/step-of-config-stored)|
-|3|How nginx loads the nginx.conf file|[here](./nginx/load-nginx-conf-file.md)|
-|4|How nginx analyzes the nginx.conf file|[here](./nginx/nginx-analyzes-conf-file.md.md)
+|0|Questions when I read nginx guide book|[here](./nginx/0.question.md)|
+|1|How nginx start up and read config file|[here](./nginx/1.init-and-read-conf.md)|
+|2|Steps of configuration file to stored in ngx_cycle_t|[here](./nginx/2.step-of-config-stored.md)|
+|3|How nginx loads the nginx.conf file|[here](./nginx/3.load-nginx-conf-file.md)|
+|4|How nginx analyzes the nginx.conf file|[here](./nginx/4.nginx-analyzes-conf-file.md)
 ## Gin Part
 @todo: to be finished
 
