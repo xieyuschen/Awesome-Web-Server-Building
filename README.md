@@ -19,7 +19,9 @@ Einige Inhalte werde ich noch einmail auf Deutsch schreiben.
 |1|How nginx start up and read config file|[here](./nginx/1.init-and-read-conf.md)|
 |2|Steps of configuration file to stored in ngx_cycle_t|[here](./nginx/2.step-of-config-stored.md)|
 |3|How nginx loads the nginx.conf file|[here](./nginx/3.load-nginx-conf-file.md)|
-|4|How nginx analyzes the nginx.conf file|[here](./nginx/4.nginx-analyzes-conf-file.md)
+|4|How nginx analyzes the nginx.conf file|[here](./nginx/4.nginx-analyzes-conf-file.md)|
+|5|Talk about conf_ctx and switch context when execute command callback|[here](./nginx/5.context-switch-when-call-cmd-callback.md)|
+
 ## Gin Part
 @todo: to be finished
 
