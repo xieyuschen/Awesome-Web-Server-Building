@@ -22,7 +22,7 @@ Einige Inhalte werde ich noch einmail auf Deutsch schreiben.
 |4|How nginx analyzes the nginx.conf file|[here](./nginx/4.nginx-analyzes-conf-file.md)|
 |5|Talk about conf_ctx and switch context when execute command callback|[here](./nginx/5.context-switch-when-call-cmd-callback.md)|
 |6|How nginx handles http connections|[here](./nginx/6.how-nginx-deal-connection.md)|
-
+|7|How nginx event module works|[here](./nginx/7.how-nginx-event-module-works.md)|
 ## Gin Part
 |Rank|Title|Link|
 |--|:--|--|
