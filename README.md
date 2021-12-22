@@ -23,7 +23,7 @@ Einige Inhalte werde ich noch einmail auf Deutsch schreiben.
 |5|Talk about conf_ctx and switch context when execute command callback|[here](./nginx/5.context-switch-when-call-cmd-callback.md)|
 |6|How nginx handles http connections|[here](./nginx/6.how-nginx-deal-connection.md)|
 |7|How nginx event module works|[here](./nginx/7.how-nginx-event-module-works.md)|
-|8|Who manages event module|[here](./nginx/8.who manages event module.md)|
+|8|Who manages event module|[here](./nginx/8.who_manages_event_module.md)|
 |9|Http module in nginx|[here](./nginx/9.http-module-in-nginx.md)|
 
 
