@@ -34,4 +34,11 @@ Einige Inhalte werde ich noch einmail auf Deutsch schreiben.
 
 
 
- 
+ # Reference meterials
+- Understanding Nginx, Modules Development and Architecture Resolving(Second Edition)  
+深入理解Nginx,模块开发与架构解析(第二版), ISBN: `978-7-111-52625-4`  
+- Analysis of Nginx Source Code  
+Nginx底层设计与源码分析, ISBD: `978-7-111-68274-5`  
+- Nginx完全开发指南,使用C,C++,Javascript和Lua  
+ISBN:`978-7-121-36436-5`  
+
