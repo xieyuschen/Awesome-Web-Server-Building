@@ -24,8 +24,14 @@ Einige Inhalte werde ich noch einmail auf Deutsch schreiben.
 |6|How nginx handles http connections|[here](./nginx/6.how-nginx-deal-connection.md)|
 |7|How nginx event module works|[here](./nginx/7.how-nginx-event-module-works.md)|
 |8|Who manages event module|[here](./nginx/8.who_manages_event_module.md)|
-|9|Http module in nginx|[here](./nginx/9.http-module-in-nginx.md)|
-
+|9|Http module in nginx: receive data from connection and solve it by eleven phases|[here](./nginx/9.http-module-in-nginx-1.md)|
+|10|Http module in nginx: give client response and end a request|[here](./nginx/10.http-module-in-nginx-2.md)|
+|11|Upstream module|@todo|
+|12|Master-Work processes model in nginx|@todo|
+|13|Load balance module|@todo|
+|14|Limiting flow module|@todo|
+|15|Log module|@todo|
+|16|Memory management in nginx|@todo|
 
 ## Gin Part
 |Rank|Title|Link|
